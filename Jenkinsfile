@@ -28,10 +28,14 @@ pipeline {
 
         //Outro estágio, para o deploy
         stage ('Deploy Kubernetes') {
+            environment {
+                tag_version = "${env.BUILD_ID}"
+            }
             steps {
                 //credencial criada no Jenkins
                 withKubeConfig([credentialsId: 'kubeconfig']) {
                     //Executar comando no shell
+                    sh 'sed -i "s/{{TAG}}/$tag_version/g" ./k8s/deployment.yaml'
                     sh 'kubectl apply -f ./k8s/deployment.yaml'
                 }
             }
