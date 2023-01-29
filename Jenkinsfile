@@ -25,5 +25,16 @@ pipeline {
                 }
             }
         }
+
+        //Outro estágio, para o deploy
+        stage ('Deploy Kubernetes') {
+            steps {
+                //credencial criada no Jenkins
+                withkubeconfig([credentialsId: 'kubeconfig']) {
+                    //Executar comando no shell
+                    sh 'kubectl apply -f ./k8s/deployment.yaml'
+                }
+            }
+        }
     }
 }
