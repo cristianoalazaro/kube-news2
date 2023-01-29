@@ -30,7 +30,7 @@ pipeline {
         stage ('Deploy Kubernetes') {
             steps {
                 //credencial criada no Jenkins
-                withkubeconfig([credentialsId: 'kubeconfig']) {
+                withkubeConfig([credentialsId: 'kubeconfig']) {
                     //Executar comando no shell
                     sh 'kubectl apply -f ./k8s/deployment.yaml'
                 }
